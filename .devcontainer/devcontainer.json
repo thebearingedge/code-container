@@ -1,0 +1,9 @@
+{
+  "name": "code-container",
+  "dockerFile": "Dockerfile",
+  "remoteUser": "dev",
+  "mounts": [
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/dev/.ssh,type=bind,readonly",
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/home/dev/.gitconfig,type=bind,readonly"
+  ]
+}
