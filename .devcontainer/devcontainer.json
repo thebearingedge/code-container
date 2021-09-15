@@ -3,6 +3,7 @@
   "dockerFile": "Dockerfile",
   "remoteUser": "dev",
   "mounts": [
-    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/home/dev/.gitconfig,type=bind,readonly"
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/home/dev/.gitconfig,type=bind,readonly",
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind,readonly"
   ]
 }
