@@ -2,12 +2,7 @@ FROM ubuntu:20.04
 
 RUN yes | unminimize 2>&1
 
-COPY ./scripts/base.sh /tmp/scripts/base.sh
+COPY ./setup/install.sh /tmp/setup/install.sh
+COPY ./setup/home /home/dev
 
-RUN sh /tmp/scripts/base.sh \
-    && rm -rf /tmp/scripts
-
-COPY ./scripts/setup.sh /tmp/scripts/setup.sh
-
-RUN sh /tmp/scripts/setup.sh \
-    && rm -rf /tmp/scripts
+RUN sh /tmp/setup/install.sh rm -rf /tmp/setup
