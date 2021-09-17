@@ -2,7 +2,8 @@ FROM ubuntu:20.04
 
 RUN yes | unminimize 2>&1
 
-COPY ./setup/install.sh /tmp/setup/install.sh
-COPY ./setup/home /home/dev
+COPY ./setup /tmp/setup
 
-RUN sh /tmp/setup/install.sh rm -rf /tmp/setup
+RUN mkdir -p /home/dev && \
+    cp -rp /tmp/setup/home/. /home/dev && \
+    sh /tmp/setup/install.sh rm -rf /tmp/setup
