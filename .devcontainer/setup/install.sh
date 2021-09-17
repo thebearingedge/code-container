@@ -80,8 +80,7 @@ chmod 440 /etc/sudoers.d/dev
 
 chown -R dev:dev /home/dev
 
-echo 'su - dev' >> /root/.bash_profile
-echo 'exit' >> /root/.bash_logout
+echo 'su --shell /bin/bash -l dev; exit' >> /root/.bash_profile
 
 # clean up
 
