@@ -8,5 +8,19 @@
   "extensions": [
     "thebearingedge.lfz-code"
   ],
-  "userEnvProbe": "loginInteractiveShell"
+  "settings": {
+    "terminal.integrated.profiles.linux": {
+      "bash": {
+        "path": "bash",
+        "icon": "terminal-bash",
+        "args": [
+          "-l"
+        ]
+      },
+      "zsh": null,
+      "fish": null,
+      "tmux": null,
+      "pwsh": null
+    }
+  }
 }
