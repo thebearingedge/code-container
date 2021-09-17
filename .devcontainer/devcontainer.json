@@ -1,9 +1,12 @@
 {
   "name": "code-container",
   "dockerFile": "Dockerfile",
-  "remoteUser": "dev",
   "mounts": [
-    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/home/dev/.gitconfig,type=bind",
-    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
-  ]
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/home/dev/.gitconfig,type=bind"
+  ],
+  "extensions": [
+    "thebearingedge.lfz-code"
+  ],
+  "userEnvProbe": "loginInteractiveShell"
 }

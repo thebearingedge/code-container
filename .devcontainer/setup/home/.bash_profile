@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for config in "$HOME"/.bashrc.d/*.bash; do
+for config in "$HOME"/.bash_profile.d/*.bash; do
   # shellcheck source=/dev/null
   source "${config}"
 done
