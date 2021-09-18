@@ -11,9 +11,10 @@ install_packages () {
   apt-get install -qq -o=Dpkg::Use-Pty=0 "$@"
 }
 
-apt-get update
+apt-get -q update
 
-# install base
+
+### install base
 
 install_packages \
   apt-transport-https \
@@ -37,11 +38,13 @@ install_packages \
   tzdata \
   unzip
 
-# configure locale
+
+### configure locale
 
 locale-gen en_US.UTF-8
 
-# install docker
+
+### install docker
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg |
  gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -56,40 +59,61 @@ echo \
 
 apt-get -q update
 
-install_packages docker-ce docker-ce-cli containerd.io
+install_packages \
+  docker-ce \
+  docker-ce-cli \
+  containerd.io
 
-# install postgresql
 
-install_packages postgresql
+### install postgresql
+
+install_packages \
+  postgresql
+
 service postgresql start
 su -c 'psql -c "create user dev with superuser password '\''dev'\''"' postgres
 su -c 'createdb -O dev dev' postgres
 service postgresql stop
 
-# install node.js
+
+### install node.js
 
 curl -sL https://deb.nodesource.com/setup_16.x | bash
-install_packages nodejs
 
-# install php
+install_packages \
+  nodejs
+
+
+### install nginx
+
+install_packages \
+  nginx
+
+
+### install php
 
 install_packages \
   php \
   php-fpm \
   php-curl
 
-# install mysql
+
+### install mysql
 
 echo "mysql-server mysql-server/root_password password root" |
      debconf-set-selections
 echo "mysql-server mysql-server/root_password_again password root" |
      debconf-set-selections
 
-install_packages mysql-server
+install_packages \
+  mysql-server
 
 usermod -d /var/run/mysqld/ mysql
 
-# create dev user
+# TODO: add a default 'dev'@'localhost' mysql user
+
+
+### create dev user
 
 useradd -m -s /bin/bash -G sudo,docker dev
 
@@ -103,10 +127,11 @@ if [ $(stat -c '%U' "$WORKSPACE_FOLDER") = root ]; then
   chown -R dev:dev "$WORKSPACE_FOLDER"
 fi
 
-su --shell /bin/bash -l dev; exit
+su --shell /bin/bash --login dev; exit
 EOF
 
-# clean up
+
+### clean up
 
 apt-get -yq autoremove
 
