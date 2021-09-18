@@ -71,6 +71,24 @@ service postgresql stop
 curl -sL https://deb.nodesource.com/setup_16.x | bash
 install_packages nodejs
 
+# install php
+
+install_packages \
+  php \
+  php-fpm \
+  php-curl
+
+# install mysql
+
+echo "mysql-server mysql-server/root_password password root" |
+     debconf-set-selections
+echo "mysql-server mysql-server/root_password_again password root" |
+     debconf-set-selections
+
+install_packages mysql-server
+
+usermod -d /var/run/mysqld/ mysql
+
 # create dev user
 
 useradd -m -s /bin/bash -G sudo,docker dev
