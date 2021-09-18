@@ -98,7 +98,12 @@ chmod 440 /etc/sudoers.d/dev
 
 chown -R dev:dev /home/dev
 
-echo 'su --shell /bin/bash -l dev; exit' >> /root/.bash_profile
+cat << 'EOF' > /root/.bash_profile
+if [ $(stat -c '%U' "$WORKSPACE_FOLDER") = root ]; then
+  chown -R dev:dev "$WORKSPACE_FOLDER"
+fi
+su --shell /bin/bash -l dev; exit
+EOF
 
 # clean up
 
