@@ -113,6 +113,24 @@ usermod -d /var/run/mysqld/ mysql
 # TODO: add a default 'dev'@'localhost' mysql user
 
 
+### create vscode user
+
+useradd -m -s /bin/bash -G sudo vscode
+
+echo 'vscode ALL=(dev) NOPASSWD: /bin/bash' > /etc/sudoers.d/vscode
+chmod 440 /etc/sudoers.d/vscode
+
+cat << 'EOF' > /home/vscode/.bash_profile
+if [ $(stat -c '%U' "$WORKSPACE_FOLDER") = vscode ]; then
+  chown -R dev:dev "$WORKSPACE_FOLDER"
+fi
+
+sudo -u dev /bin/bash --login; exit
+EOF
+
+chown -R vscode:vscode /home/vscode
+
+
 ### create dev user
 
 useradd -m -s /bin/bash -G sudo,docker dev
@@ -121,14 +139,6 @@ echo 'dev ALL=(root) NOPASSWD:ALL' > /etc/sudoers.d/dev
 chmod 440 /etc/sudoers.d/dev
 
 chown -R dev:dev /home/dev
-
-cat << 'EOF' > /root/.bash_profile
-if [ $(stat -c '%U' "$WORKSPACE_FOLDER") = root ]; then
-  chown -R dev:dev "$WORKSPACE_FOLDER"
-fi
-
-su --shell /bin/bash --login dev; exit
-EOF
 
 
 ### clean up
