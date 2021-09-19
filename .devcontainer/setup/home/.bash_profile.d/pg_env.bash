@@ -1,5 +1,4 @@
 #!/bin/bash
 
+export PGDATABASE=postgres
 export PGPASSWORD=dev
-export PGUSER=dev
-export PGDATABASE=dev
