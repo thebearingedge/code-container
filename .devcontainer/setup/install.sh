@@ -76,7 +76,7 @@ service postgresql start
 su -c 'psql -c "create user dev with superuser password '\''dev'\''"' postgres
 service postgresql stop
 
-pgweb_cli="pgweb_linux_$arch.zip"
+pgweb_cli="pgweb_linux_${arch}"
 
 if [ "$arch" = 'arm64' ]; then
   pgweb_cli="pgweb_linux_${arch}_v7"
@@ -95,7 +95,7 @@ rm "/tmp/$pgweb_cli.zip"
 
 ### install node.js
 
-curl -sL https://deb.nodesource.com/setup_16.x | bash
+curl -fsSL https://deb.nodesource.com/setup_16.x | bash
 
 install_packages \
   nodejs
