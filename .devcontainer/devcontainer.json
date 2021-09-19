@@ -12,6 +12,7 @@
   "extensions": [
     "thebearingedge.lfz-code"
   ],
+  "overrideCommand": false,
   "remoteUser": "vscode",
   "settings": {
     "terminal.integrated.profiles.linux": {

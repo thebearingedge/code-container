@@ -8,3 +8,7 @@ RUN mkdir -p /home/dev && \
     cp -rp /tmp/setup/home/. /home/dev && \
     sh /tmp/setup/install.sh && \
     rm -rf /tmp/setup
+
+USER dev
+
+CMD [ "sleep", "infinity" ]

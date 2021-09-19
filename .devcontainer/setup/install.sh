@@ -35,6 +35,7 @@ install_packages \
   netcat-openbsd \
   openssh-client \
   psmisc \
+  shellcheck \
   sudo \
   traceroute \
   tzdata \
