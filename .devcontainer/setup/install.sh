@@ -33,6 +33,7 @@ install_packages \
   man \
   nano \
   netcat-openbsd \
+  openssh-client \
   psmisc \
   sudo \
   traceroute \
