@@ -118,6 +118,16 @@ EOF
 service mysql stop
 
 
+### create dev user
+
+useradd -m -s /bin/bash -G sudo dev
+
+echo 'dev ALL=(root) NOPASSWD:ALL' > /etc/sudoers.d/dev
+chmod 440 /etc/sudoers.d/dev
+
+chown -R dev:dev /home/dev
+
+
 ### create vscode user
 
 useradd -m -s /bin/bash -G sudo vscode
@@ -134,16 +144,6 @@ sudo -u dev /bin/bash --login; exit
 EOF
 
 chown -R vscode:vscode /home/vscode
-
-
-### create dev user
-
-useradd -m -s /bin/bash -G sudo dev
-
-echo 'dev ALL=(root) NOPASSWD:ALL' > /etc/sudoers.d/dev
-chmod 440 /etc/sudoers.d/dev
-
-chown -R dev:dev /home/dev
 
 
 ### clean up
