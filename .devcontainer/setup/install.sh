@@ -72,7 +72,6 @@ install_packages \
 
 service postgresql start
 su -c 'psql -c "create user dev with superuser password '\''dev'\''"' postgres
-su -c 'createdb -O dev dev' postgres
 service postgresql stop
 
 
@@ -110,7 +109,13 @@ install_packages \
 
 usermod -d /var/run/mysqld/ mysql
 
-# TODO: add a default 'dev'@'localhost' mysql user
+service mysql start
+mysql -uroot -proot << EOF
+create user 'dev'@'localhost' identified by 'dev';
+grant all privileges on *.* to 'dev'@'localhost';
+flush privileges;
+EOF
+service mysql stop
 
 
 ### create vscode user
