@@ -46,7 +46,7 @@ install_packages \
 locale-gen en_US.UTF-8
 
 
-### install docker
+### install docker cli
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg |
  gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -62,9 +62,7 @@ echo \
 apt-get -q update
 
 install_packages \
-  docker-ce \
-  docker-ce-cli \
-  containerd.io
+  docker-ce-cli
 
 
 ### install postgresql
@@ -135,7 +133,7 @@ chown -R vscode:vscode /home/vscode
 
 ### create dev user
 
-useradd -m -s /bin/bash -G sudo,docker dev
+useradd -m -s /bin/bash -G sudo dev
 
 echo 'dev ALL=(root) NOPASSWD:ALL' > /etc/sudoers.d/dev
 chmod 440 /etc/sudoers.d/dev
