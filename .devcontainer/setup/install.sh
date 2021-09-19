@@ -63,7 +63,8 @@ echo \
 apt-get -q update
 
 install_packages \
-  docker-ce-cli
+  docker-ce-cli \
+  docker-compose
 
 
 ### install postgresql
@@ -84,7 +85,7 @@ fi
 pgweb_release='https://github.com/sosedoff/pgweb/releases/latest'
 pgweb_latest="$(curl -fsSL -o /dev/null -w "%{url_effective}" $pgweb_release)"
 pgweb_version="$(basename "$pgweb_latest")"
-pgweb_download="https://github.com/sosedoff/pgweb/releases/download"
+pgweb_download='https://github.com/sosedoff/pgweb/releases/download'
 pgweb_download_url="$pgweb_download/$pgweb_version/$pgweb_cli.zip"
 
 curl -fsSL -o "/tmp/$pgweb_cli.zip" "$pgweb_download_url"
