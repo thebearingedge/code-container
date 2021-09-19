@@ -143,6 +143,7 @@ chown -R dev:dev /home/dev
 
 ### clean up
 
-apt-get -yq autoremove
+apt-get -y clean
+apt-get -y autoremove
 
 rm -rf /var/lib/apt/lists/*
