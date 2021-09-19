@@ -8,7 +8,7 @@ export LANGUAGE='en_US:en'
 export LC_ALL='en_US.UTF-8'
 
 install_packages () {
-  apt-get install -qq -o=Dpkg::Use-Pty=0 "$@"
+  apt-get install --no-install-recommends -qq -o=Dpkg::Use-Pty=0 "$@"
 }
 
 apt-get -q update
@@ -20,6 +20,7 @@ install_packages \
   apt-transport-https \
   bash-completion \
   build-essential \
+  ca-certificates \
   curl \
   dirmngr \
   git \
