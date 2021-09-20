@@ -29,6 +29,7 @@ install_packages \
   gnupg \
   host \
   htop \
+  httpie \
   iputils-ping \
   locales \
   lsb-release \
