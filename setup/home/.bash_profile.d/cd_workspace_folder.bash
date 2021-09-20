@@ -1,3 +1,8 @@
 #!/bin/bash
 
-[[ -n "$WORKSPACE_FOLDER" ]] && cd "$WORKSPACE_FOLDER" || return
+if [ -n "$WORKSPACE_FOLDER" ] && [ -d "$WORKSPACE_FOLDER" ]; then
+  if [ "$(stat -c '%U' "$WORKSPACE_FOLDER")" != dev ]; then
+    sudo chown -R dev:dev "$WORKSPACE_FOLDER"
+  fi
+  cd "$WORKSPACE_FOLDER" || return
+fi

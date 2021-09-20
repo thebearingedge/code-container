@@ -151,18 +151,14 @@ chown -R dev:dev /home/dev
 
 mkdir -p /home/vscode
 
-cat << 'EOF' > /home/vscode/.bash_profile
-if [ $(stat -c '%U' "$WORKSPACE_FOLDER") = vscode ]; then
-  chown -R dev:dev "$WORKSPACE_FOLDER"
-fi
-
+cat << 'EOF' | tee /home/vscode/.bash_profile /home/vscode/.bashrc
 sudo -u dev /bin/bash --login; exit
 EOF
 
 echo 'vscode ALL=(dev) NOPASSWD: /bin/bash' > /etc/sudoers.d/vscode
 chmod 440 /etc/sudoers.d/vscode
 
-useradd -s /bin/bash -G sudo vscode
+useradd -s /bin/bash -G vscode
 
 chown -R vscode:vscode /home/vscode
 
