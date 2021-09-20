@@ -11,4 +11,6 @@ RUN mkdir -p /home/dev && \
 
 USER dev
 
+WORKDIR /home/dev
+
 CMD [ "sleep", "infinity" ]
