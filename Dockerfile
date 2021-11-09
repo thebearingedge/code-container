@@ -13,4 +13,8 @@ USER dev
 
 WORKDIR /home/dev
 
+EXPOSE 80 3000 3306 5432 8081 9000 35729
+
+# apache/nginx, node, mysql, postgresql, pgweb, php-fpm, livereload
+
 CMD [ "sleep", "infinity" ]
