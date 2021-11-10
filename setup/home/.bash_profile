@@ -4,3 +4,5 @@ for config in "$HOME"/.bash_profile.d/*.bash; do
   # shellcheck source=/dev/null
   source "${config}"
 done
+
+export PATH="$PATH:$HOME/.local/bin"
