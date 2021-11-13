@@ -19,6 +19,7 @@ apt-get -q update
 ### install base
 
 install_packages \
+  software-properties-common \
   apt-transport-https \
   bash-completion \
   build-essential \
@@ -43,6 +44,34 @@ install_packages \
   traceroute \
   tzdata \
   unzip
+
+
+### create dev user
+
+useradd -m -s /bin/bash -G sudo dev
+
+echo 'dev ALL=(root) NOPASSWD:ALL' > /etc/sudoers.d/dev
+chmod 440 /etc/sudoers.d/dev
+
+
+### create vscode user
+
+mkdir -p /home/vscode
+
+cat << 'EOF' | tee /home/vscode/.bash_profile /home/vscode/.bashrc
+sudo -u dev /bin/bash -l; exit
+EOF
+
+echo 'vscode ALL=(dev) NOPASSWD: /bin/bash' > /etc/sudoers.d/vscode
+chmod 440 /etc/sudoers.d/vscode
+
+useradd -s /bin/bash vscode -G dev
+
+
+### set user home permissions
+
+chown -R dev:dev /home/dev
+chown -R vscode:vscode /home/vscode
 
 
 ### configure locale
@@ -116,6 +145,19 @@ install_packages \
   php-curl
 
 
+### install python
+
+add-apt-repository -y ppa:deadsnakes/ppa
+
+install_packages \
+  python3.10 \
+  python3.10-distutils
+
+sudo -u dev /bin/bash -l -c '\
+  curl -fsSL https://bootstrap.pypa.io/get-pip.py | python3.10
+'
+
+
 ### install mysql
 
 echo "mysql-server mysql-server/root_password password root" |
@@ -135,32 +177,6 @@ grant all privileges on *.* to 'dev'@'localhost';
 flush privileges;
 EOF
 service mysql stop
-
-
-### create dev user
-
-useradd -m -s /bin/bash -G sudo dev
-
-echo 'dev ALL=(root) NOPASSWD:ALL' > /etc/sudoers.d/dev
-chmod 440 /etc/sudoers.d/dev
-
-chown -R dev:dev /home/dev
-
-
-### create vscode user
-
-mkdir -p /home/vscode
-
-cat << 'EOF' | tee /home/vscode/.bash_profile /home/vscode/.bashrc
-sudo -u dev /bin/bash --login; exit
-EOF
-
-echo 'vscode ALL=(dev) NOPASSWD: /bin/bash' > /etc/sudoers.d/vscode
-chmod 440 /etc/sudoers.d/vscode
-
-useradd -s /bin/bash vscode -G dev
-
-chown -R vscode:vscode /home/vscode
 
 
 ### clean up
