@@ -141,7 +141,10 @@ install_packages \
 ### install apache
 
 install_packages \
-  apache2 \
+  apache2
+
+echo 'ServerName 127.0.0.1' >> /etc/apache2/conf-available/server-name.conf
+a2enconf server-name
 
 
 ### install mysql
