@@ -43,6 +43,7 @@ install_packages \
   sudo \
   traceroute \
   tzdata \
+  zip \
   unzip
 
 
@@ -137,25 +138,10 @@ install_packages \
   nginx
 
 
-### install php
+### install apache
 
 install_packages \
-  php \
-  php-fpm \
-  php-curl
-
-
-### install python
-
-add-apt-repository -y ppa:deadsnakes/ppa
-
-install_packages \
-  python3.10 \
-  python3.10-distutils
-
-sudo -u dev /bin/bash -l -c '\
-  curl -fsSL https://bootstrap.pypa.io/get-pip.py | python3.10
-'
+  apache2 \
 
 
 ### install mysql
@@ -178,6 +164,28 @@ flush privileges;
 EOF
 service mysql stop
 
+
+### install php
+
+install_packages \
+  php \
+  php-fpm \
+  php-curl \
+  php-mysql \
+  libapache2-mod-php
+
+
+### install python
+
+add-apt-repository -y ppa:deadsnakes/ppa
+
+install_packages \
+  python3.10 \
+  python3.10-distutils
+
+sudo -u dev /bin/bash -l -c '\
+  curl -fsSL https://bootstrap.pypa.io/get-pip.py | python3.10
+'
 
 ### clean up
 
