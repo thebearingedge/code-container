@@ -158,7 +158,7 @@ EOF
 echo 'vscode ALL=(dev) NOPASSWD: /bin/bash' > /etc/sudoers.d/vscode
 chmod 440 /etc/sudoers.d/vscode
 
-useradd -s /bin/bash vscode
+useradd -s /bin/bash vscode -G dev
 
 chown -R vscode:vscode /home/vscode
 
