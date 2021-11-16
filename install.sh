@@ -26,12 +26,14 @@ install_packages \
   ca-certificates \
   curl \
   dirmngr \
+  execline \
   git \
   gnupg \
   host \
   htop \
   httpie \
   iputils-ping \
+  less \
   locales \
   lsb-release \
   man \
@@ -43,13 +45,14 @@ install_packages \
   sudo \
   traceroute \
   tzdata \
-  zip \
-  unzip
+  unzip \
+  zip
 
 
 ### create dev user
 
-useradd -m -s /bin/bash -G sudo dev
+useradd -s /bin/bash -G sudo dev
+chown -R dev:dev /home/dev
 
 echo 'dev ALL=(root) NOPASSWD:ALL' > /etc/sudoers.d/dev
 chmod 440 /etc/sudoers.d/dev
@@ -57,22 +60,11 @@ chmod 440 /etc/sudoers.d/dev
 
 ### create vscode user
 
-mkdir -p /home/vscode
-
-cat << 'EOF' | tee /home/vscode/.bash_profile /home/vscode/.bashrc
-sudo -u dev /bin/bash -l; exit
-EOF
-
-echo 'vscode ALL=(dev) NOPASSWD: /bin/bash' > /etc/sudoers.d/vscode
-chmod 440 /etc/sudoers.d/vscode
-
 useradd -s /bin/bash vscode -G dev
-
-
-### set user home permissions
-
-chown -R dev:dev /home/dev
 chown -R vscode:vscode /home/vscode
+
+echo 'vscode ALL=(dev) NOPASSWD:ALL' > /etc/sudoers.d/vscode
+chmod 440 /etc/sudoers.d/vscode
 
 
 ### configure locale
@@ -189,6 +181,15 @@ install_packages \
 sudo -u dev /bin/bash -l -c '\
   curl -fsSL https://bootstrap.pypa.io/get-pip.py | python3.10
 '
+
+
+### set default file permissions for interactice shells
+
+cat << EOF >> /etc/bash.bashrc
+
+umask 0002
+EOF
+
 
 ### clean up
 

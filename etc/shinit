@@ -1,0 +1,5 @@
+#!/bin/sh
+
+if [ "$(id -u)" != 0 ]; then
+  umask 0002 # set default file permissions for non-interactive shells
+fi
