@@ -17,3 +17,5 @@ if [ -n "$WORKSPACE_FOLDER" ] && [ -d "$WORKSPACE_FOLDER" ]; then
   fi
 
 fi
+
+exec "$@"

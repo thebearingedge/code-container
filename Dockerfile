@@ -5,8 +5,8 @@ LABEL author="thebearingedge"
 RUN yes | unminimize 2>&1
 
 COPY ./home /home
-COPY ./commands /commands
 COPY ./install.sh /tmp/install.sh
+COPY ./docker-entrypoint.sh /docker-entrypoint.sh
 
 RUN sh /tmp/install.sh && \
     rm -rf /tmp/install.sh
@@ -17,5 +17,7 @@ EXPOSE 80            3000  5000   8081   9000     35729
 USER dev
 
 WORKDIR /home/dev
+
+ENTRYPOINT [ "/docker-entrypoint.sh" ]
 
 CMD [ "sleep", "infinity" ]
