@@ -186,10 +186,6 @@ sudo -u dev /bin/bash -l -c '\
   curl -fsSL https://bootstrap.pypa.io/get-pip.py | python3.10
 '
 
-### default file permissions
-
-sed -i -e 's/\(UMASK\s\+\)022/\1002/' /etc/login.defs
-
 
 ### clean up
 
