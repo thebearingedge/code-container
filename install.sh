@@ -19,7 +19,7 @@ apt-get -q update
 ### install base
 
 install_packages \
-  software-properties-common \
+  acl \
   apt-transport-https \
   bash-completion \
   build-essential \
@@ -42,6 +42,7 @@ install_packages \
   openssh-client \
   psmisc \
   shellcheck \
+  software-properties-common \
   sudo \
   traceroute \
   tzdata \
@@ -49,27 +50,30 @@ install_packages \
   zip
 
 
-### create dev user
+### configure locale
 
-useradd -s /bin/bash -G sudo dev
-chown -R dev:dev /home/dev
-
-echo 'dev ALL=(root) NOPASSWD:ALL' > /etc/sudoers.d/dev
-chmod 440 /etc/sudoers.d/dev
+locale-gen en_US.UTF-8
 
 
 ### create vscode user
 
-useradd -s /bin/bash vscode -G dev
-chown -R vscode:vscode /home/vscode
+mkdir /workspaces
+
+useradd -s /bin/bash -G sudo vscode
+chown -R vscode:vscode /home/vscode /workspaces
 
 echo 'vscode ALL=(dev) NOPASSWD:ALL' > /etc/sudoers.d/vscode
 chmod 440 /etc/sudoers.d/vscode
 
 
-### configure locale
+### create dev user
 
-locale-gen en_US.UTF-8
+useradd -s /bin/bash -G sudo dev
+usermod -g vscode dev
+chown -R dev:dev /home/dev
+
+echo 'dev ALL=(root) NOPASSWD:ALL' > /etc/sudoers.d/dev
+chmod 440 /etc/sudoers.d/dev
 
 
 ### install docker cli
@@ -181,14 +185,6 @@ install_packages \
 sudo -u dev /bin/bash -l -c '\
   curl -fsSL https://bootstrap.pypa.io/get-pip.py | python3.10
 '
-
-
-### set default file permissions for interactice shells
-
-cat << EOF >> /etc/bash.bashrc
-
-umask 0002
-EOF
 
 
 ### clean up
