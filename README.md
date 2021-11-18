@@ -44,9 +44,6 @@ An all-in-one dev container environment for new web developers.
     "thebearingedge.lfz-code"
     // ... other VS Code extensions
   ],
-  "overrideCommand": false,
-  "remoteUser": "vscode",
-  "containerUser": "vscode",
   "settings": {
     "terminal.integrated.profiles.linux": {
       "bash": {
