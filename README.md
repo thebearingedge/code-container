@@ -12,8 +12,10 @@ An all-in-one dev container environment for new web developers.
 - PostgreSQL
 - pgweb
 - PHP
+- Python 3
 - MySQL
 - Nginx
+- Apache
 - Docker CLI & Docker Compose
 
 ## On Docker Hub
@@ -44,6 +46,7 @@ An all-in-one dev container environment for new web developers.
   ],
   "overrideCommand": false,
   "remoteUser": "vscode",
+  "containerUser": "vscode",
   "settings": {
     "terminal.integrated.profiles.linux": {
       "bash": {
