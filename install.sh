@@ -72,7 +72,7 @@ useradd -s /bin/bash -G sudo dev
 usermod -g vscode dev
 chown -R dev:dev /home/dev
 
-echo 'dev ALL=(root) NOPASSWD:ALL' > /etc/sudoers.d/dev
+echo 'dev ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/dev
 chmod 440 /etc/sudoers.d/dev
 
 
