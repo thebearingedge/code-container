@@ -55,25 +55,25 @@ install_packages \
 locale-gen en_US.UTF-8
 
 
+### create dev user
+
+useradd -s /bin/bash -G sudo dev
+chown -R dev:dev /home/dev
+
+echo 'dev ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/dev
+chmod 440 /etc/sudoers.d/dev
+
+
 ### create vscode user
 
 mkdir /workspaces
 
 useradd -s /bin/bash -G sudo vscode
+usermod -g vscode dev
 chown -R vscode:vscode /home/vscode /workspaces
 
 echo 'vscode ALL=(dev) NOPASSWD:ALL' > /etc/sudoers.d/vscode
 chmod 440 /etc/sudoers.d/vscode
-
-
-### create dev user
-
-useradd -s /bin/bash -G sudo dev
-usermod -g vscode dev
-chown -R dev:dev /home/dev
-
-echo 'dev ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/dev
-chmod 440 /etc/sudoers.d/dev
 
 
 ### install docker cli
