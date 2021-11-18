@@ -25,7 +25,7 @@ if [ -n "$WORKSPACE_FOLDER" ] && [ -d "$WORKSPACE_FOLDER" ]; then
       chmod 700 "$ssh_dir"
       chmod 600 "$ssh_dir"/*
       chmod 644 "$ssh_dir"/*.pub
-      touch "$ssh_permissions_set"
+      sudo -u vscode touch "$ssh_permissions_set"
     fi
 
   fi
