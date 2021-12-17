@@ -32,8 +32,6 @@ An all-in-one dev container environment for new web developers.
   "mounts": [
     // get access to the host docker daemon
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
-    // mount SSH config and keys
-    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/dev/.ssh,type=bind",
     // mount Git configuration
     "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/home/dev/.gitconfig,type=bind"
   ],
