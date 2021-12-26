@@ -35,9 +35,6 @@ An all-in-one dev container environment for new web developers.
     // mount Git configuration
     "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/home/dev/.gitconfig,type=bind"
   ],
-  "containerEnv": {
-    "WORKSPACE_FOLDER": "${containerWorkspaceFolder}"
-  },
   "extensions": [
     "thebearingedge.lfz-code"
     // ... other VS Code extensions
