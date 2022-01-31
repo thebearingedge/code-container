@@ -2,15 +2,14 @@ name: CI to Docker Hub
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: docker.io
   IMAGE_NAME: thebearingedge/code-container
-
 
 jobs:
   build:
@@ -46,4 +45,3 @@ jobs:
             --platform linux/amd64,linux/arm64 \
             --tag ${{ env.IMAGE_NAME }}:latest \
             .
-
