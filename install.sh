@@ -45,6 +45,7 @@ install_packages \
   software-properties-common \
   sudo \
   traceroute \
+  tree \
   tzdata \
   unzip \
   zip
@@ -67,7 +68,7 @@ chmod 440 /etc/sudoers.d/dev
 ### install docker cli
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg |
- gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+  gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
 echo \
   "deb [arch=$arch signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] \
