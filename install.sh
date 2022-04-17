@@ -74,9 +74,10 @@ echo 'vscode ALL=(dev) NOPASSWD:ALL' > /etc/sudoers.d/vscode
 chmod 440 /etc/sudoers.d/vscode
 
 
-### add dev user to vscode group
+### set vscode primary group to dev
 
-usermod -a -G vscode dev
+usermod -a -G dev vscode
+usermod -g dev vscode
 
 
 ### install docker cli
