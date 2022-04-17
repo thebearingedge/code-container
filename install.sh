@@ -65,6 +65,20 @@ echo 'dev ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/dev
 chmod 440 /etc/sudoers.d/dev
 
 
+### create vscode user
+
+useradd -s /bin/bash -G sudo vscode
+chown -R vscode:vscode /home/vscode
+
+echo 'vscode ALL=(dev) NOPASSWD:ALL' > /etc/sudoers.d/vscode
+chmod 440 /etc/sudoers.d/vscode
+
+
+### add dev user to vscode group
+
+usermod -a -G vscode dev
+
+
 ### install docker cli
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg |

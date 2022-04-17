@@ -13,8 +13,4 @@ RUN sh /tmp/install.sh && \
 #      apache/nginx, node, flask, pgweb, php-fpm, node debugger, livereload
 EXPOSE 80            3000  5000   8081   9000     9229           35729
 
-USER dev
-
-WORKDIR /home/dev
-
 CMD [ "sleep", "infinity" ]
