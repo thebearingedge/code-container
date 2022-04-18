@@ -70,7 +70,7 @@ chmod 440 /etc/sudoers.d/dev
 useradd -s /bin/bash -G sudo vscode
 chown -R vscode:vscode /home/vscode
 
-echo 'vscode ALL=(dev) NOPASSWD:ALL' > /etc/sudoers.d/vscode
+echo 'vscode ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/vscode
 chmod 440 /etc/sudoers.d/vscode
 
 
