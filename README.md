@@ -119,3 +119,27 @@ An all-in-one dev container environment for new web developers.
   }
 }
 ```
+
+## Post-Create Command to Set Permissions
+
+This is here to isolate the `dev` user's processes from the `vscode` user's processes.
+
+```sh
+#!/bin/sh
+
+set -e
+
+echo 'removing node_modules '
+sudo rm -rf ./node_modules
+echo 'changing file ownership'
+sudo chown -R dev:dev .
+echo 'changing file permissions'
+find . \( -type d -o -type f \) -exec sudo -u dev chmod g+w {} \;
+echo 'changing file acl'
+sudo -u dev setfacl -Rm d:g:dev:rw .
+echo 'marking safe git repository'
+git config --global safe.directory "$(pwd)"
+echo 'installing npm packages'
+test -f package-lock.json && sudo -u dev npm ci
+
+```
