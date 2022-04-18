@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export PGDATABASE=postgres
+export PGDATABASE=dev
 export PGPASSWORD=dev
 
 alias pgweb='pgweb --bind=0.0.0.0'
