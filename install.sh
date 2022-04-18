@@ -105,6 +105,7 @@ install_packages \
 
 service postgresql start
 su -c 'psql -c "create user dev with superuser password '\''dev'\''"' postgres
+su -c 'createdb -O dev dev' postgres
 service postgresql stop
 
 pgweb_cli="pgweb_linux_${arch}"
@@ -132,12 +133,6 @@ install_packages \
   nodejs
 
 
-### install nginx
-
-install_packages \
-  nginx
-
-
 ### install apache
 
 install_packages \
@@ -145,6 +140,12 @@ install_packages \
 
 echo 'ServerName 127.0.0.1' >> /etc/apache2/conf-available/server-name.conf
 a2enconf server-name
+
+
+### install nginx
+
+install_packages \
+  nginx
 
 
 ### install mysql
