@@ -24,13 +24,15 @@ An all-in-one dev container environment for new web developers.
 
 ## VS Code Integration
 
+The image comes with a `dev` user and a `vscode` user. This example configuration assumes that you want to have the `vscode` use manage all of the environment processes so you can run a terminal shell as the `dev` user.
+
 ```jsonc
 // .devcontainer/devcontainer.json
 {
-  "name": "my-project",
+  "name": "project-name",
   "image": "thebearingedge/code-container",
   "mounts": [
-    // share ssh config
+    // share ssh config. remove this if you don't want to use a vscode user
     "source=${localEnv:HOME}/.ssh,target=/home/dev/.ssh,type=bind",
     // get access to the host docker daemon
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
@@ -51,7 +53,7 @@ An all-in-one dev container environment for new web developers.
   ],
   "remoteUser": "vscode",
   "containerUser": "vscode",
-  "postCreateCommand": "./.devcontainer/post-create-command.bash",
+  "postCreateCommand": "./.devcontainer/post-create-command.sh",
   "settings": {
     "css.validate": false,
     "editor.codeActionsOnSave": {
@@ -122,7 +124,7 @@ An all-in-one dev container environment for new web developers.
 
 ## Post-Create Command to Set Permissions
 
-This is here to isolate the `dev` user's processes from the `vscode` user's processes.
+Run this script in `"postCreateCommand"` to isolate the `dev` user's processes from the `vscode` user's processes.
 
 ```sh
 #!/bin/sh
@@ -131,15 +133,23 @@ set -e
 
 echo 'removing node_modules '
 sudo rm -rf ./node_modules
+
 echo 'changing file ownership'
 sudo chown -R dev:dev .
+
 echo 'changing file permissions'
 find . \( -type d -o -type f \) -exec sudo -u dev chmod g+w {} \;
-echo 'changing file acl'
+
+echo 'changing default file acl'
 sudo -u dev setfacl -Rm d:g:dev:rw .
+
 echo 'marking safe git repository'
 git config --global safe.directory "$(pwd)"
-echo 'installing npm packages'
-test -f package-lock.json && sudo -u dev npm ci
 
+echo 'installing node_modules'
+if [ -f package-lock.json ]; then
+  sudo -u dev npm ci
+elif [ -f package.json ]; then
+  sudo -u dev npm install
+fi
 ```
