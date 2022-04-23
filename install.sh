@@ -51,6 +51,11 @@ install_packages \
   zip
 
 
+### git completion
+
+curl -fL https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash > \
+  /home/dev/.bashrc.d/git-completion.bash
+
 ### configure locale
 
 locale-gen en_US.UTF-8
