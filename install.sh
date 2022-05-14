@@ -132,7 +132,7 @@ rm "/tmp/$pgweb_cli.zip"
 
 ### install node.js
 
-curl -fsSL https://deb.nodesource.com/setup_16.x | bash
+curl -fsSL https://deb.nodesource.com/setup_18.x | bash
 
 install_packages \
   nodejs
