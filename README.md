@@ -1,10 +1,10 @@
 # code-container
 
-An all-in-one dev container environment for new web developers.
+An all-in-one dev container environment for web developers.
 
 ## Highlights
 
-- Ubuntu 20.04
+- Ubuntu 22.04
 - Bash
 - Git
 - HTTPie
@@ -24,19 +24,22 @@ An all-in-one dev container environment for new web developers.
 
 ## VS Code Integration
 
-The image comes with a `dev` user and a `vscode` user. This example configuration assumes that you want to have the `vscode` use manage all of the environment processes so you can run a terminal shell as the `dev` user.
+The image comes with a `dev` user and a `vscode` user. This example configuration assumes that you want to have the `vscode` use manage all of the environment processes while you run a terminal shell as the `dev` user.
+
+### Example `.devcontainer/devcontainer.json`
 
 ```jsonc
-// .devcontainer/devcontainer.json
 {
-  "name": "project-name",
+  "name": "${containerWorkspaceFolderBasename}",
   "image": "thebearingedge/code-container",
   "mounts": [
-    // share ssh config. remove this if you don't want to use a vscode user
-    "source=${localEnv:HOME}/.ssh,target=/home/dev/.ssh,type=bind",
-    // get access to the host docker daemon
+    // persist postgres data
+    "target=/var/lib/postgresql",
+    // mount host docker socket
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
-    // mount Git configuration
+    // mount ssh config
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/dev/.ssh,type=bind",
+    // mount git config
     "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/home/dev/.gitconfig,type=bind"
   ],
   "appPort": [
@@ -53,78 +56,15 @@ The image comes with a `dev` user and a `vscode` user. This example configuratio
   ],
   "remoteUser": "vscode",
   "containerUser": "vscode",
-  "postCreateCommand": "./.devcontainer/post-create-command.sh",
-  "settings": {
-    "css.validate": false,
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true,
-      "source.fixAll.stylelint": true
-    },
-    "editor.fontFamily": "Menlo, Monaco, Consolas, 'Courier New', monospace",
-    "editor.fontSize": 14,
-    "editor.formatOnPaste": true,
-    "editor.minimap.enabled": false,
-    "editor.occurrencesHighlight": false,
-    "editor.overviewRulerBorder": true,
-    "editor.renderWhitespace": "all",
-    "editor.rulers": [
-      80
-    ],
-    "editor.snippetSuggestions": "none",
-    "editor.tabSize": 2,
-    "eslint.alwaysShowStatus": true,
-    "eslint.format.enable": true,
-    "eslint.run": "onType",
-    "eslint.validate": [
-      "javascript",
-      "javascript-react"
-    ],
-    "explorer.compactFolders": false,
-    "explorer.confirmDelete": false,
-    "explorer.confirmDragAndDrop": false,
-    "explorer.openEditors.visible": 0,
-    "extensions.ignoreRecommendations": true,
-    "files.associations": {
-      ".eslintrc": "json",
-      ".markuplintrc": "json",
-      ".sql": "plpgsql",
-      ".stylelintrc": "json"
-    },
-    "files.eol": "\n",
-    "files.insertFinalNewline": true,
-    "files.trimFinalNewlines": true,
-    "files.trimTrailingWhitespace": true,
-    "javascript.suggest.autoImports": false,
-    "javascript.suggestionActions.enabled": false,
-    "javascript.updateImportsOnFileMove.enabled": "never",
-    "javascript.validate.enable": false,
-    "less.validate": false,
-    "liveServer.settings.donotShowInfoMsg": true,
-    "liveServer.settings.donotVerifyTags": true,
-    "scss.validate": false,
-    "terminal.integrated.fontSize": 14,
-    "terminal.integrated.profiles.linux": {
-      "bash": {
-        "icon": "terminal-bash",
-        "path": "/bin/bash"
-      }
-    },
-    "terminal.integrated.tabs.enabled": false,
-    "vsicons.dontShowNewVersionMessage": true,
-    "window.restoreWindows": "none",
-    "window.zoomLevel": 0,
-    "workbench.activityBar.visible": false,
-    "workbench.enableExperiments": false,
-    "workbench.iconTheme": "vscode-icons",
-    "workbench.panel.defaultLocation": "right",
-    "workbench.startupEditor": "none"
-  }
+  "postCreateCommand": "sh .devcontainer/post-create-command.sh"
 }
 ```
 
 ## Post-Create Command to Set Permissions
 
 Run this script in `"postCreateCommand"` to isolate the `dev` user's processes from the `vscode` user's processes.
+
+### Example `.devcontainer/post-create-command.sh`
 
 ```sh
 #!/bin/sh
@@ -134,16 +74,21 @@ set -e
 echo 'removing node_modules '
 sudo rm -rf ./node_modules
 
-echo 'changing file ownership'
-sudo chown -R dev:dev .
+if [ -d /home/dev/.ssh ]; then
+  echo 'setting ssh file permissions'
+  sudo chown -R dev:dev /home/dev/.ssh
+  sudo chmod 600 /home/dev/.ssh/*
+  sudo chmod 644 /home/dev/.ssh/*.pub
+fi
 
-echo 'changing file permissions'
+echo 'changing project file permissions'
+sudo chown -R dev:dev .
 find . \( -type d -o -type f \) -exec sudo -u dev chmod g+w {} \;
 
 echo 'changing default file acl'
 sudo -u dev setfacl -Rm d:g:dev:rw .
 
-echo 'marking safe git repository'
+echo 'marking safe git repository for vscode user'
 git config --global safe.directory "$(pwd)"
 
 echo 'installing node_modules'
