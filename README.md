@@ -8,7 +8,7 @@ An all-in-one dev container environment for web developers.
 - Bash
 - Git
 - HTTPie
-- Node.js
+- Node.js 18
 - PostgreSQL
 - pgweb
 - PHP
@@ -33,14 +33,16 @@ The image comes with a `dev` user and a `vscode` user. This example configuratio
   "name": "${containerWorkspaceFolderBasename}",
   "image": "thebearingedge/code-container",
   "mounts": [
-    // persist postgres data
-    "target=/var/lib/postgresql",
     // mount host docker socket
     "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
     // mount ssh config
     "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/dev/.ssh,type=bind",
     // mount git config
-    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/home/dev/.gitconfig,type=bind"
+    "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/home/dev/.gitconfig,type=bind",
+    // persist postgres data
+    "target=/var/lib/postgresql",
+    // persist vscode extensions
+    "target=/home/vscode/.vscode-server/extensions"
   ],
   "appPort": [
     80,    // apache/nginx
